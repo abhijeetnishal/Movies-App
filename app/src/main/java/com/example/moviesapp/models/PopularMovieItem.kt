@@ -6,6 +6,7 @@ data class PopularMovieItem(
 )
 
 data class MovieItemResult(
+    val id: String,
     val poster_path: String,
     val release_date: String,
     val title: String,

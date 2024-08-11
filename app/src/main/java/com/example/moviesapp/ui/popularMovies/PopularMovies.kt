@@ -17,7 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.moviesapp.MainActivity
 import com.example.moviesapp.models.PopularMovieItem
+import com.example.moviesapp.ui.movieDetails.MovieDetails
 import com.example.moviesapp.viewModels.MoviesViewModel
 
 @Composable
@@ -25,6 +32,22 @@ fun PopularMovies() {
     val moviesViewModel: MoviesViewModel = hiltViewModel()
     val popularMovies: State<PopularMovieItem?> = moviesViewModel.popularMovies.collectAsState()
     val popularMoviesItems = popularMovies.value?.results
+
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            MainActivity()
+        }
+        composable(
+            "movie-details/{id}",
+            arguments = listOf(navArgument("id") {
+                type = NavType.StringType
+            })
+        ) {
+            MovieDetails()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -46,7 +69,9 @@ fun PopularMovies() {
         LazyRow {
             if (popularMoviesItems != null) {
                 items(popularMoviesItems.size) {
-                    PopularMoviesItem(movie = popularMoviesItems[it])
+                    PopularMoviesItem(movie = popularMoviesItems[it], onClick = {
+                        navController.navigate("movie-details/$it")
+                    })
                 }
             }
         }

@@ -3,8 +3,6 @@ package com.example.moviesapp.ui.popularMovies
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,9 +21,11 @@ import coil.compose.AsyncImage
 import com.example.moviesapp.models.MovieItemResult
 
 @Composable
-fun PopularMoviesItem(movie: MovieItemResult) {
+fun PopularMoviesItem(movie: MovieItemResult, onClick: (id: String) -> Unit) {
     Card(
-        onClick = { /*TODO*/ }, modifier = Modifier.width(124.dp), shape = RoundedCornerShape(4.dp)
+        onClick = { onClick(movie.id) },
+        modifier = Modifier.width(124.dp),
+        shape = RoundedCornerShape(4.dp)
     ) {
         Column(
             modifier = Modifier
@@ -35,7 +35,7 @@ fun PopularMoviesItem(movie: MovieItemResult) {
             AsyncImage(
                 model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
                 contentDescription = null,
-                )
+            )
 
             Spacer(modifier = Modifier.width(2.dp))
 
