@@ -1,4 +1,4 @@
-package com.example.moviesapp.ui.popularMovies
+package com.example.moviesapp.ui.topRatedMovies
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,20 +24,20 @@ import com.example.moviesapp.utils.NetworkState
 import com.example.moviesapp.viewModels.MoviesViewModel
 
 @Composable
-fun PopularMovies(navController: NavController) {
+fun TopRatedMovies(navController: NavController) {
     val moviesViewModel: MoviesViewModel = hiltViewModel()
-    val popularMovies: State<NetworkState<MovieItem>> =
-        moviesViewModel.popularMovies.collectAsState()
-    val popularMoviesItems = popularMovies.value.data?.results
+    val topRatedMovies: State<NetworkState<MovieItem>> =
+        moviesViewModel.topRatedMovies.collectAsState()
+    val topRatedMoviesItems = topRatedMovies.value.data?.results
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp, top = 32.dp),
+            .padding(start = 8.dp, end = 8.dp, top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Popular Movies",
+            text = "Top Rated Movies",
             color = Color.White,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 16.sp,
@@ -47,9 +47,9 @@ fun PopularMovies(navController: NavController) {
         Spacer(modifier = Modifier.height(12.dp))
 
         LazyRow {
-            if (popularMoviesItems != null) {
-                items(popularMoviesItems.size) {
-                    MoviesItem(movie = popularMoviesItems[it], onClick = {
+            if (topRatedMoviesItems != null) {
+                items(topRatedMoviesItems.size) {
+                    MoviesItem(movie = topRatedMoviesItems[it], onClick = {
                         navController.navigate("movie-details/$it")
                     })
                 }

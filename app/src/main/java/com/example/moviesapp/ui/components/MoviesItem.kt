@@ -1,8 +1,9 @@
-package com.example.moviesapp.ui.popularMovies
+package com.example.moviesapp.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,14 +22,15 @@ import coil.compose.AsyncImage
 import com.example.moviesapp.models.MovieItemResult
 
 @Composable
-fun PopularMoviesItem(movie: MovieItemResult, onClick: (id: String) -> Unit) {
+fun MoviesItem(movie: MovieItemResult, onClick: (id: String) -> Unit) {
     Card(
         onClick = { onClick(movie.id) },
-        modifier = Modifier.width(124.dp),
+        modifier = Modifier.width(124.dp).height(230.dp),
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .align(Alignment.CenterHorizontally)
                 .background(color = Color.Gray),
         ) {

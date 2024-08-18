@@ -2,21 +2,24 @@ package com.example.moviesapp.repository
 
 import com.example.moviesapp.api.MoviesAPI
 import com.example.moviesapp.models.MovieDetails
-import com.example.moviesapp.models.PopularMovieItem
+import com.example.moviesapp.models.MovieItem
 import com.example.moviesapp.utils.NetworkState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(private val moviesAPI: MoviesAPI) {
-    private val _popularMovies =
-        MutableStateFlow<NetworkState<PopularMovieItem>>(NetworkState.Idle())
-    val popularMovies: StateFlow<NetworkState<PopularMovieItem>>
+    private val _popularMovies = MutableStateFlow<NetworkState<MovieItem>>(NetworkState.Idle())
+    val popularMovies: StateFlow<NetworkState<MovieItem>>
         get() = _popularMovies
 
     private val _movieDetails = MutableStateFlow<NetworkState<MovieDetails>>(NetworkState.Idle())
     val movieDetails: StateFlow<NetworkState<MovieDetails>>
         get() = _movieDetails
+
+    private val _topRatedMovies = MutableStateFlow<NetworkState<MovieItem>>(NetworkState.Idle())
+    val topRatedMovies: StateFlow<NetworkState<MovieItem>>
+        get() = _topRatedMovies
 
     suspend fun getPopularMovies() {
         _popularMovies.emit(NetworkState.Loading())
@@ -50,6 +53,24 @@ class MovieRepository @Inject constructor(private val moviesAPI: MoviesAPI) {
             }
         } catch (e: Exception) {
             _movieDetails.value =
+                NetworkState.Error("Network request failed: ${e.localizedMessage}")
+        }
+    }
+
+    suspend fun getTopRatedMovies() {
+        _topRatedMovies.emit(NetworkState.Loading())
+
+        try {
+            val response = moviesAPI.getTopRatedMovies()
+
+            if (response.isSuccessful && response.body() != null) {
+                _topRatedMovies.value = NetworkState.Success(response.body())
+            } else {
+                val errorMessage = "Error: ${response.errorBody()?.string()}"
+                _topRatedMovies.value = NetworkState.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            _topRatedMovies.value =
                 NetworkState.Error("Network request failed: ${e.localizedMessage}")
         }
     }

@@ -1,6 +1,6 @@
 package com.example.moviesapp.models
 
-data class PopularMovieItem(
+data class MovieItem(
     val page: Int,
     val results: List<MovieItemResult>,
 )
