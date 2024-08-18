@@ -65,5 +65,9 @@ fun HomeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(32.dp))
 
         TopRatedMovies(navController = navController)
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+
     }
 }

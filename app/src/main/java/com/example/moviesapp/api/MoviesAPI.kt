@@ -32,4 +32,6 @@ interface MoviesAPI {
         @Query("page") page: Int = 1,
         @Header("Authorization") authHeader: String = "Bearer $TOP_RATED_MOVIES_TOKEN"
     ): Response<MovieItem>
+
+
 }
