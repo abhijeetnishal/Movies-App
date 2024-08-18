@@ -23,13 +23,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.moviesapp.models.MovieDetails
+import com.example.moviesapp.utils.NetworkState
 import com.example.moviesapp.viewModels.MovieDetailsViewModel
 
 @Composable
 fun MovieDetails() {
     val moviesDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
-    val movieDetails: State<MovieDetails?> = moviesDetailsViewModel.movieDetails.collectAsState()
-    val movieGenres = movieDetails.value?.genres
+    val movieDetails: MovieDetails? = moviesDetailsViewModel.movieDetails.collectAsState().value.data
+    val movieGenres = movieDetails?.genres
 
     Column(
         modifier = Modifier
@@ -37,7 +38,7 @@ fun MovieDetails() {
             .padding(vertical = 32.dp, horizontal = 8.dp),
     ) {
         AsyncImage(
-            model = "https://image.tmdb.org/t/p/w500${movieDetails.value?.poster_path}",
+            model = "https://image.tmdb.org/t/p/w500${movieDetails?.poster_path}",
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -48,7 +49,7 @@ fun MovieDetails() {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = movieDetails.value?.title.toString(),
+            text = movieDetails?.title.toString(),
             color = Color.White,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 18.sp,
@@ -65,7 +66,7 @@ fun MovieDetails() {
             )
 
             Text(
-                text = movieDetails.value?.release_date.toString(),
+                text = movieDetails?.release_date.toString(),
                 color = Color.White,
                 fontSize = 14.sp,
             )
@@ -81,7 +82,7 @@ fun MovieDetails() {
             )
 
             Text(
-                text = movieDetails.value?.vote_average.toString(),
+                text = movieDetails?.vote_average.toString(),
                 color = Color.White,
                 fontSize = 14.sp,
             )
@@ -100,7 +101,7 @@ fun MovieDetails() {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = movieDetails.value?.overview.toString(),
+                text = movieDetails?.overview.toString(),
                 color = Color.White,
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 14.sp,

@@ -25,13 +25,15 @@ import androidx.navigation.navArgument
 import com.example.moviesapp.MainActivity
 import com.example.moviesapp.models.PopularMovieItem
 import com.example.moviesapp.ui.movieDetails.MovieDetails
+import com.example.moviesapp.utils.NetworkState
 import com.example.moviesapp.viewModels.MoviesViewModel
 
 @Composable
 fun PopularMovies() {
     val moviesViewModel: MoviesViewModel = hiltViewModel()
-    val popularMovies: State<PopularMovieItem?> = moviesViewModel.popularMovies.collectAsState()
-    val popularMoviesItems = popularMovies.value?.results
+    val popularMovies: State<NetworkState<PopularMovieItem>> =
+        moviesViewModel.popularMovies.collectAsState()
+    val popularMoviesItems = popularMovies.value.data?.results
 
     val navController = rememberNavController()
 
@@ -40,8 +42,7 @@ fun PopularMovies() {
             MainActivity()
         }
         composable(
-            "movie-details/{id}",
-            arguments = listOf(navArgument("id") {
+            "movie-details/{id}", arguments = listOf(navArgument("id") {
                 type = NavType.StringType
             })
         ) {
