@@ -3,6 +3,7 @@ package com.example.moviesapp.repository
 import com.example.moviesapp.api.MoviesAPI
 import com.example.moviesapp.models.MovieDetails
 import com.example.moviesapp.models.MovieItem
+import com.example.moviesapp.models.TvShowItem
 import com.example.moviesapp.utils.NetworkState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,10 @@ class MovieRepository @Inject constructor(private val moviesAPI: MoviesAPI) {
     private val _topRatedMovies = MutableStateFlow<NetworkState<MovieItem>>(NetworkState.Idle())
     val topRatedMovies: StateFlow<NetworkState<MovieItem>>
         get() = _topRatedMovies
+
+    private val _topRatedTvShows = MutableStateFlow<NetworkState<TvShowItem>>(NetworkState.Idle())
+    val topRatedTvShows: StateFlow<NetworkState<TvShowItem>>
+        get() = _topRatedTvShows
 
     suspend fun getPopularMovies() {
         _popularMovies.emit(NetworkState.Loading())
@@ -71,6 +76,24 @@ class MovieRepository @Inject constructor(private val moviesAPI: MoviesAPI) {
             }
         } catch (e: Exception) {
             _topRatedMovies.value =
+                NetworkState.Error("Network request failed: ${e.localizedMessage}")
+        }
+    }
+
+    suspend fun getTopRatedTvShows() {
+        _topRatedTvShows.emit(NetworkState.Loading())
+
+        try {
+            val response = moviesAPI.getTopRatedTvShows()
+
+            if (response.isSuccessful && response.body() != null) {
+                _topRatedTvShows.value = NetworkState.Success(response.body())
+            } else {
+                val errorMessage = "Error: ${response.errorBody()?.string()}"
+                _topRatedTvShows.value = NetworkState.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            _topRatedTvShows.value =
                 NetworkState.Error("Network request failed: ${e.localizedMessage}")
         }
     }
