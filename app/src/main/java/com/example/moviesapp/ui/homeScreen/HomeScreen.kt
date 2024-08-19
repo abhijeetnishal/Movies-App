@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.example.moviesapp.ui.popularMovies.PopularMovies
 import com.example.moviesapp.ui.topRatedMovies.TopRatedMovies
 import com.example.moviesapp.ui.topRatedTvShows.TopRatedTvShows
+import com.example.moviesapp.ui.trendingTvShows.TrendingTvShows
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -29,6 +30,10 @@ fun HomeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(32.dp))
 
         TopRatedMovies(navController = navController)
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        TrendingTvShows(navController = navController)
 
         Spacer(modifier = Modifier.height(32.dp))
 

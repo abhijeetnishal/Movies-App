@@ -16,9 +16,13 @@ class TvShowsViewModel @Inject constructor(private val tvShowRepository: TvShows
     val topRatedTvShows: StateFlow<NetworkState<TvShowItem>>
         get() = tvShowRepository.topRatedTvShows
 
+    val trendingTvShows: StateFlow<NetworkState<TvShowItem>>
+        get() = tvShowRepository.trendingTvShows
+
     init {
         viewModelScope.launch {
             tvShowRepository.getTopRatedTvShows()
+            tvShowRepository.getTrendingTvShows()
         }
     }
 }

@@ -9,13 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class TvShowsRepository @Inject constructor(private val tvShowsAPI: TvShowsAPI) {
-    private val _topRatedTvShows =
-        MutableStateFlow<NetworkState<TvShowItem>>(NetworkState.Idle())
+    private val _topRatedTvShows = MutableStateFlow<NetworkState<TvShowItem>>(NetworkState.Idle())
     val topRatedTvShows: StateFlow<NetworkState<TvShowItem>>
         get() = _topRatedTvShows
 
-    private val _tvShowDetails =
-        MutableStateFlow<NetworkState<TvShowDetails>>(NetworkState.Idle())
+    private val _trendingTvShows = MutableStateFlow<NetworkState<TvShowItem>>(NetworkState.Idle())
+    val trendingTvShows: StateFlow<NetworkState<TvShowItem>>
+        get() = _trendingTvShows
+
+    private val _tvShowDetails = MutableStateFlow<NetworkState<TvShowDetails>>(NetworkState.Idle())
     val tvShowDetails: StateFlow<NetworkState<TvShowDetails>>
         get() = _tvShowDetails
 
@@ -33,6 +35,25 @@ class TvShowsRepository @Inject constructor(private val tvShowsAPI: TvShowsAPI) 
             }
         } catch (e: Exception) {
             _topRatedTvShows.emit(
+                NetworkState.Error("Network request failed: ${e.localizedMessage}")
+            )
+        }
+    }
+
+    suspend fun getTrendingTvShows() {
+        _trendingTvShows.emit(NetworkState.Loading())
+
+        try {
+            val response = tvShowsAPI.getTrendingTvShows()
+
+            if (response.isSuccessful && response.body() != null) {
+                _trendingTvShows.emit(NetworkState.Success(response.body()))
+            } else {
+                val errorMessage = "Error: ${response.errorBody()?.string()}"
+                _trendingTvShows.emit(NetworkState.Error(errorMessage))
+            }
+        } catch (e: Exception) {
+            _trendingTvShows.emit(
                 NetworkState.Error("Network request failed: ${e.localizedMessage}")
             )
         }
