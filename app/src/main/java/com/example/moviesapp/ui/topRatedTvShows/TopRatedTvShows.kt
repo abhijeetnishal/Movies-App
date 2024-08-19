@@ -46,7 +46,7 @@ fun TopRatedTvShows(navController: NavController) {
             if (topRatedTvShowsItems != null) {
                 items(topRatedTvShowsItems.size) {
                     TvShowsItem(tvShow = topRatedTvShowsItems[it], onClick = {
-                        navController.navigate("movie-details/$it")
+                        navController.navigate("tv-show-details/$it")
                     })
                 }
             }
