@@ -1,6 +1,7 @@
 package com.example.moviesapp.di
 
 import com.example.moviesapp.api.MoviesAPI
+import com.example.moviesapp.api.TvShowsAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,11 @@ class NetworkModule {
     @Provides
     fun provideMoviesAPI(retrofit: Retrofit): MoviesAPI {
         return retrofit.create(MoviesAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTvShowsAPI(retrofit: Retrofit): TvShowsAPI {
+        return retrofit.create(TvShowsAPI::class.java)
     }
 }

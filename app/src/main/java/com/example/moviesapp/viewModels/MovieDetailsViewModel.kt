@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviesapp.models.MovieDetails
-import com.example.moviesapp.repository.MovieRepository
+import com.example.moviesapp.repository.MoviesRepository
 import com.example.moviesapp.utils.NetworkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -13,10 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
+    private val movieRepository: MoviesRepository, private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     val movieDetails: StateFlow<NetworkState<MovieDetails>>
         get() = movieRepository.movieDetails
 
