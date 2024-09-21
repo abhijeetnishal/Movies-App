@@ -13,17 +13,13 @@ Compose for UI development.
 
 ## Screenshots
 
-<div style="display: flex; flex-wrap: wrap; justify-content: center;">
-  <div style="margin: 10px;">
-    <img src="screenshots/screenshot_1.jpg" width="200" height="400" alt="Home Screen">
-  </div>
-  <div style="margin: 10px;">
-    <img src="screenshots/screenshot_2.jpg" width="200" height="400" alt="Home Screen">
-  </div>
-  <div style="margin: 10px;">
-    <img src="screenshots/screenshot_3.jpg" width="200" height="400" alt="Home Screen">
-  </div>
-</div>
+<table>
+  <tr>
+    <td><img src="screenshots/screenshot_1.jpg" alt="Image 1" width="250"/></td>
+    <td><img src="screenshots/screenshot_2.jpg" alt="Image 2" width="250"/></td>
+    <td><img src="screenshots/screenshot_3.jpg" alt="Image 3" width="250"/></td>
+  </tr>
+</table>
 
 ## Architecture
 
